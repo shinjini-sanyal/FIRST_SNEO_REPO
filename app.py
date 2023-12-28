@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = #SQLITE DATABASE NAME
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -24,6 +24,9 @@ def create_tables():
 
 @app.route('/')
 def hello():
+    todo = Todo(title = 'First Todo', desc = 'Start investing in stocks')
+    db.session.add(todo)
+    db.session.commit()
     return render_template('index.html')
     #return 'Hello, Flask!'
 
@@ -35,3 +38,4 @@ if __name__ == '__main__':
     # Call the function to create tables before running the application
     create_tables()
     app.run(debug=True)
+
